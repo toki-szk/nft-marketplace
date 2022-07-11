@@ -1,7 +1,7 @@
 /* eslint-disable @next/next/no-img-element */
 import { Disclosure, Menu } from "@headlessui/react";
 import { BellIcon, MenuIcon, XIcon } from "@heroicons/react/outline";
-import { useAccount } from "@hooks";
+import { useWeb3 } from "@providers/web3";
 import Link from "next/link";
 import ActiveLink from "../link";
 const navigation = [
@@ -14,9 +14,9 @@ function classNames(...classes: string[]) {
 }
 
 export default function Example() {
-  const { data, isValidating, error } = useAccount("Some Random Params");
-
-  console.log(error);
+  const { hooks } = useWeb3();
+  const { data } = hooks.useAccount("");
+  console.log(data);
 
   return (
     <Disclosure as="nav" className="bg-gray-800">
