@@ -42,4 +42,9 @@ export const useWeb3 = () => {
   return useContext(Web3Context);
 };
 
+export const useHooks = () => {
+  const { hooks } = useWeb3();
+  return hooks;
+};
+
 export default Web3Provider;
