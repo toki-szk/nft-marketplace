@@ -102,3 +102,50 @@ describe("Buy NFT", () => {
     assert.equal(currentOwner, account1.address, "Item is still listed");
   });
 });
+
+describe("Token transfers", () => {
+  const tokenURI = "https://test-json-2.com";
+  before(async () => {
+    const txn = await contract
+      .connect(contractOwner)
+      .mintToken(tokenURI, _nftPrice, {
+        value: _listingPrice,
+      });
+    await txn.wait();
+  });
+
+  it("shold have two NFTs created", async () => {
+    const totalSupply = await contract.totalSupply();
+
+    assert.equal(
+      totalSupply.toNumber(),
+      2,
+      "Total supply of token is not correct"
+    );
+  });
+
+  it("shold be able to retreive nft by index", async () => {
+    const nftid1 = await contract.tokenByIndex(0);
+    const nftid2 = await contract.tokenByIndex(1);
+
+    assert.equal(nftid1.toNumber(), 1, "NFT is is wrong");
+    assert.equal(nftid2.toNumber(), 2, "NFT is is wrong");
+  });
+
+  it("should have one listed NFT", async () => {
+    const allNfts = await contract.getAllNftsOnSale();
+    assert.equal(allNfts[0].tokenId, 2, "Nft has a wrong id");
+  });
+
+  it("acount[1] should have one owned NFT", async () => {
+    const ownedNfts = await contract.connect(account1).getOwnedNfts();
+
+    assert.equal(ownedNfts[0].tokenId, 1, "Nft has a wrong id");
+  });
+
+  it("acount[0] should have one owned NFT", async () => {
+    const ownedNfts = await contract.connect(contractOwner).getOwnedNfts();
+
+    assert.equal(ownedNfts[0].tokenId, 2, "Nft has a wrong id");
+  });
+});
