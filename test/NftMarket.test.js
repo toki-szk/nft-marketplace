@@ -124,7 +124,7 @@ describe("Token transfers", () => {
     );
   });
 
-  it("shold be able to retreive nft by index", async () => {
+  it("should be able to retreive nft by index", async () => {
     const nftid1 = await contract.tokenByIndex(0);
     const nftid2 = await contract.tokenByIndex(1);
 
@@ -137,15 +137,55 @@ describe("Token transfers", () => {
     assert.equal(allNfts[0].tokenId, 2, "Nft has a wrong id");
   });
 
-  it("acount[1] should have one owned NFT", async () => {
+  it("account[1] should have one owned NFT", async () => {
     const ownedNfts = await contract.connect(account1).getOwnedNfts();
 
     assert.equal(ownedNfts[0].tokenId, 1, "Nft has a wrong id");
   });
 
-  it("acount[0] should have one owned NFT", async () => {
+  it("account[0] should have one owned NFT", async () => {
     const ownedNfts = await contract.connect(contractOwner).getOwnedNfts();
 
     assert.equal(ownedNfts[0].tokenId, 2, "Nft has a wrong id");
+  });
+});
+
+describe("Token transfer to new owner", () => {
+  before(async () => {
+    await contract
+      .connect(contractOwner)
+      .transferFrom(contractOwner.address, account1.address, 2);
+  });
+
+  it("accounts[0] should own 0 tokens", async () => {
+    const ownedNfts = await contract.connect(contractOwner).getOwnedNfts();
+    assert.equal(ownedNfts.length, 0, "Invalid length of tokens");
+  });
+
+  it("accounts[1] should own 2 tokens", async () => {
+    const ownedNfts = await contract.connect(account1).getOwnedNfts();
+    assert.equal(ownedNfts.length, 2, "Invalid length of tokens");
+  });
+});
+
+describe("Burn Token", () => {
+  const tokenURI = "https://test-json3.com";
+  before(async () => {
+    await contract.connect(account2).mintToken(tokenURI, _nftPrice, {
+      value: _listingPrice,
+    });
+  });
+
+  it("account[2] should have one owned NFT", async () => {
+    const ownedNfts = await contract.connect(account2).getOwnedNfts();
+
+    assert.equal(ownedNfts[0].tokenId, 3, "Nft has a wrong id");
+  });
+
+  it("account[2] should own 0 NFTs", async () => {
+    await contract.connect(account2).burnToken(3);
+    const ownedNfts = await contract.connect(account2).getOwnedNfts();
+
+    assert.equal(ownedNfts.length, 0, "Invalid length of tokens");
   });
 });

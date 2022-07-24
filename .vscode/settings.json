@@ -1,0 +1,11 @@
+{
+  "editor.tabSize": 2, // インデントのサイズを 2 に設定
+  "editor.formatOnSave": true, // 保存時にフォーマッタを走らせる
+  "editor.codeActionsOnSave": {
+    "source.fixAll.eslint": true // 保村時に ESLint で修正する
+  },
+  "[markdown]": {
+    "files.trimTrailingWhitespace": false // Markdown ファイルの末尾の空白を取り除く
+  },
+  "css.lint.unknownAtRules": "ignore"
+}
