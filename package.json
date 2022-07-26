@@ -9,7 +9,8 @@
     "lint": "next lint",
     "compile": "npx hardhat compile",
     "node": "npx hardhat node",
-    "deploy_local": "npx hardhat run --network localhost scripts/deploy.js"
+    "deploy_local": "npx hardhat run --network localhost scripts/deploy.js",
+    "genContractType": "abi-types-generator './public/contracts/artifacts/contracts/NftMarket.sol/NftMarket.json' --output='./types' --name=nftMarketContract --provider=ethers_v5"
   },
   "dependencies": {
     "@headlessui/react": "^1.6.6",
@@ -40,6 +41,7 @@
     "chai": "^4.3.6",
     "eslint": "8.19.0",
     "eslint-config-next": "12.2.1",
+    "ethereum-abi-types-generator": "^1.3.2",
     "hardhat": "^2.10.0",
     "hardhat-gas-reporter": "^1.0.8",
     "postcss": "^8.4.14",

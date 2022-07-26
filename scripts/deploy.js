@@ -7,6 +7,24 @@ async function main() {
 
   await NFTMARKET.deployed();
 
+  NFTMARKET.mintToken(
+    "https://gateway.pinata.cloud/ipfs/Qmb4aom5xNRE5CBRHZsxCsYSdcmX8zfHXgM7ovZxLp3CqL",
+    "500000000000000000",
+    {
+      value: "25000000000000000",
+      from: "0xf39fd6e51aad88f6f4ce6ab8827279cfffb92266",
+    }
+  );
+
+  NFTMARKET.mintToken(
+    "https://gateway.pinata.cloud/ipfs/QmVZadDmv8JCUAtFUbt8p1BCLncTtzE3pRVYvNme1YKr7J",
+    "500000000000000000",
+    {
+      value: "25000000000000000",
+      from: "0xf39fd6e51aad88f6f4ce6ab8827279cfffb92266",
+    }
+  );
+
   console.log("deployed to:", NFTMARKET.address);
   let config = `
   {
